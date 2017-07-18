@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>选项卡</title>
+    <style>
+        *{ margin:0; padding:0}
+        ul{
+            list-style: none;
+        }
+        .tab{
+            width: 300px;
+            margin: 0 auto;
+        }
+        .tab_menu{
+            border: 1px solid #000000;
+            height: 30px;
+            width: 300px;
+        }
+        .tab_menu ul li{
+            float: left;
+            width: 99px;
+            text-align: center;
+            line-height: 30px;
+            border-right: 1px #333333 solid;
+        }
+        .tab_menu ul li:last-child{
+            border-right:none;
+            width: 100px;
+        }
+        .tab_menu ul li.on{
+            background: #999;
+        }
+        .tab_box > div{
+            width: 300px;
+            height: 200px;
+            border: #333333 solid;
+            border-width: 0 1px 1px 1px;
+            display: none; //将三个内容框架全隐藏，通过下面的:first-child属性只将第一个框架内容显示出来
+        }
+        .tab_box > div:first-child{
+            display: block;
+        }
+
+    </style>
+</head>
+<body>
+<!--整体构局说明，用ul完成按钮的横向布局，用div完成三个内容框架的垂直布局（类似于类表），然后将三个内容框架全隐藏，通过下面的:first-child属性只将第一个框架内容显示出来-->
+<div class="tab">
+    <div class="tab_menu">
+        <ul>
+            <li class="on">实事</li>
+            <li>政治</li>
+            <li>体育</li>
+        </ul>
+    </div>
+    <div class="tab_box">
+        <div>实事内容</div>
+        <div>政治内容</div>
+        <div>体育内容</div>
+    </div>
+</div>
+<script src="//cdn.bootcss.com/jquery/2.1.4/jquery.js"></script>
+<script>
+    $(function(){
+        $(".tab_menu ul li").click(function(){
+            $(this).addClass("on").siblings().removeClass("on"); //切换选中的按钮高亮状态
+            var index=$(this).index(); //获取被按下按钮的索引值，需要注意index是从0开始的
+            $(".tab_box > div").eq(index).show().siblings().hide(); //在按钮选中时在下面显示相应的内容，同时隐藏不需要的框架内容
+        });
+    });
+</script>
+</body>
+</html>

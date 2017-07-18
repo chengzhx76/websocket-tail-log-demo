@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>tail log</title>
+	<style>
+        body {
+            margin: 0;
+            padding: 0;
+        }
+        button {
+            margin-left: 10px;
+            margin-top: 10px;
+        }
+        #exec-start-shell {
+			width: 100%;
+			height: 450px;
+			background: #AAAAAA;
+            overflow-y: scroll;
+		}
+		.log {
+			width: 50%;
+			height: 350px;
+            overflow-y: scroll;
+		}
+        .content {
+            margin-left: 8px;
+            width: 100%;
+            background: palevioletred;
+        }
+        #tail-nohup-log {
+			float: left;
+			background: #FF9966;
+		}
+		#tail-log4j-log {
+			float: right;
+			background: #FFFFCC;
+		}
+	</style>
+
+</head>
+<body>
+    <button id="start">启动</button>
+    <button id="stop">启动</button>
+    <hr/>
+	<div id="exec-start-shell"><p class="content"></p></div>
+	<div id="tail-nohup-log" class="log"><p class="content"></p></div>
+	<div id="tail-log4j-log" class="log"><p class="content"></p></div>
+</body>
+<script src="//cdn.bootcss.com/jquery/2.1.4/jquery.js"></script>
+<script>
+
+    var testWebSc;
+
+    $(function () {
+        $('#start').click(function() {
+//            execStartShell();
+//            tailNoHupLog();
+//            tailLog4JLog();
+            testWeb();
+        });
+        $('#stop').click(function() {
+            testWebSc.close();
+        });
+    });
+
+    function execStartShell() {
+        var execStartShell = new WebSocket('ws://localhost:8080/start');
+        execStartShell.onmessage = function(event) {
+            $("#exec-start-shell .content").append(event.data+'<br>');
+			$("#exec-start-shell").scrollTop($("#exec-start-shell .content").height() - $("#exec-start-shell").height() + 50);
+        };
+    }
+    function tailNoHupLog() {
+        var tailNoHupLog = new WebSocket('ws://localhost:8080/tailNoHupLog');
+        tailNoHupLog.onmessage = function(event) {
+            $("#tail-nohup-log .content").append(event.data+'<br>');
+            $("#tail-nohup-log").scrollTop($("#tail-nohup-log .content").height() - $("#tail-nohup-log").height() + 50);
+        };
+    }
+    function tailLog4JLog() {
+        var tailLog4JLog = new WebSocket('ws://localhost:8080/tailLog4JLog');
+        tailLog4JLog.onmessage = function(event) {
+            $("#tail-log4j-log .content").append(event.data+'<br>');
+            $("#tail-log4j-log").scrollTop($("#tail-log4j-log .content").height() - $("#tail-log4j-log").height() + 50);
+        };
+    }
+    function testWeb() {
+        testWebSc = new WebSocket('ws://localhost:8080/testWeb');
+        testWebSc.onmessage = function(event) {
+            $("#exec-start-shell .content").append(event.data+'<br>');
+            $("#exec-start-shell").scrollTop($('#exec-start-shell .content').height() - $('#exec-start-shell').height() + 50);
+        };
+    }
+
+    function test() {
+        var i = 1;
+        setInterval(function () {
+            $("#tail-log4j-log .content").append('启动ing...'+ i +'<br>');
+            i++;
+            $("#tail-log4j-log").scrollTop($('#tail-log4j-log .content').height() - $('#tail-log4j-log').height() + 50);
+        }, 500);
+    }
+
+</script>
+</html>

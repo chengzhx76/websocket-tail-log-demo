@@ -14,7 +14,7 @@ import java.util.Properties;
  * Date: 2017/6/26
  */
 public class SessionPool {
-    private final static Map<String, Session> sessionPool = new HashMap<>();
+    private final static Map<String, Session> sessionPool = new HashMap<String, Session>();
 
     public static Session getSession(String host, String user, String pwd) {
         Session session = sessionPool.get(host + "_" + user);

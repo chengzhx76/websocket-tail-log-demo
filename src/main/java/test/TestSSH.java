@@ -3,8 +3,8 @@ package test;
 import com.jcraft.jsch.ChannelExec;
 import com.jcraft.jsch.JSchException;
 import com.jcraft.jsch.Session;
-import com.xxg.websocket.Config;
-import com.xxg.websocket.SessionPool;
+import websocket.Config;
+import websocket.SessionPool;
 
 import java.io.*;
 
